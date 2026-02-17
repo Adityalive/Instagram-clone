@@ -1,8 +1,11 @@
 const express = require('express');
 const router1 =require('./Routes/user.route');
 const router2 =require('./Routes/post.route');
+const cookieParser = require('cookie-parser'); // Add this line
+
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
