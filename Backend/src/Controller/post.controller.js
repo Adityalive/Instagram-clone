@@ -40,6 +40,54 @@ async function postcontroller(req, res) {
     }
 }
 
+async function getPosts(req,res){
+    const token = req.cookies?.token;
+    if (!token) {
+        return res.status(401).send('Unauthorized');
+    }
+    const decode = jwt.verify(token, process.env.jwt);
+    if (!decode) {
+        return res.status(401).send('Unauthorized');
+    }
+    const posts = await post.find({ user: decode.id });
+
+    return res.status(200).json({
+        message: 'Posts fetched successfully',
+        posts
+    });
+}
+async function getpostdetails(req,res){
+    const token = req.cookies?.token;
+    if (!token) {
+        return res.status(401).send('Unauthorized');
+    }
+    const decode = jwt.verify(token, process.env.jwt);
+    if (!decode) {
+        return res.status(401).send('Unauthorized');
+    }
+    const postId = req.params.id;
+    const userId = decode.id;
+    let postDoc;
+    try {
+        postDoc = await post.findById(postId);
+        if(!postDoc){
+            return res.status(404).send('Post not found');
+        }
+        if(postDoc.user.toString() !== userId){
+            return res.status(403).send('Unauthorized');
+        }
+        return res.status(200).json({
+            message: 'Post fetched successfully',
+            post: postDoc
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send('Post fetch failed');
+    }
+}
+
 module.exports = {
-    postcontroller
+    postcontroller,
+    getPosts,
+    getpostdetails,
 };
