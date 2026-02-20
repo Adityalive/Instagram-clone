@@ -41,15 +41,8 @@ async function postcontroller(req, res) {
 }
 
 async function getPosts(req,res){
-    const token = req.cookies?.token;
-    if (!token) {
-        return res.status(401).send('Unauthorized');
-    }
-    const decode = jwt.verify(token, process.env.jwt);
-    if (!decode) {
-        return res.status(401).send('Unauthorized');
-    }
-    const posts = await post.find({ user: decode.id });
+    const userId =req.user.id;
+    const posts = await post.find({ user: userId });
 
     return res.status(200).json({
         message: 'Posts fetched successfully',
@@ -57,16 +50,8 @@ async function getPosts(req,res){
     });
 }
 async function getpostdetails(req,res){
-    const token = req.cookies?.token;
-    if (!token) {
-        return res.status(401).send('Unauthorized');
-    }
-    const decode = jwt.verify(token, process.env.jwt);
-    if (!decode) {
-        return res.status(401).send('Unauthorized');
-    }
     const postId = req.params.id;
-    const userId = decode.id;
+    const userId = req.user.id;
     let postDoc;
     try {
         postDoc = await post.findById(postId);
