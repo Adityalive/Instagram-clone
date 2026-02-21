@@ -24,7 +24,8 @@ async function register(req, res) {
         profileImage,
     });
     const token = jwt.sign({
-        id: user._id
+        id: user._id,
+        username
     }, process.env.jwt);
     res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 });
     res.status(201).send(user);
@@ -46,7 +47,8 @@ async function login(req, res) {
         return res.status(401).send('Invalid password');
     }
     const token = jwt.sign({
-        id: user._id
+        id: user._id,
+        username
     }, process.env.jwt);
     res.cookie('token', token, { maxAge: 1000 * 60 * 60 * 24 });
 
