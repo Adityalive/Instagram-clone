@@ -3,14 +3,15 @@ const mongoose = require('mongoose');
 
 const folloSchema =new mongoose.Schema({
     followrs:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
-        required:true
+        type:String
     },
     following:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User',
-        required:true   
+        type:String   
+    },
+    status:{
+        type:String,
+        default:"pending",
+        enum:["pending","accepted","rejected"]
     }
 }, {
     timestamps:true
