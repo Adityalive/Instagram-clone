@@ -8,16 +8,16 @@ export  async function Login(username, password){
 
     const response = await api.post('/login', 
         { username, password })
-        console.log(response.data)
+        return(response.data)
 }
 export  async function Register(username, email, password){
 
     const response = await api.post('/register', 
         { username, email, password })
-        console.log(response.data)
+        return(response.data)
 }
 export async function getme(){
 
     const response = await api.get('/me')
-    console.log(response.data)
+    return(response.data)
 }

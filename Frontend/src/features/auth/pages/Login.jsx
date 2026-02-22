@@ -1,40 +1,29 @@
 import React, { useState } from 'react';
 import '../Style/Login.scss';
 import axios from 'axios';
+import { useAuth } from '../hooks/useAuth';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+    const {User,Loading,handlelogin} = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     // Perform input validation
     if (!username || !password) {
       setError('Please fill in all fields');
       return;
     }
-
-    try {
-      // Make API request to authenticate the user
-      const response = await axios.post('http://localhost:3000/api/auth/login', { username, password },
-        {
-            withCredentials: true
-        }
-      ).then((res) => console.log(res.data));
-
-      if (!response.ok) {
-        throw new Error('Login failed');
-      }
-
-      // Redirect to a success page or show a success message
-      // Example: window.location.href = '/dashboard';
-      console.log('Login successful');
-    } catch (error) {
-      setError(error.message);
-    }
+    await handlelogin(username,password);
   };
+   if (loading) {
+        return (<main>
+            <h1>Loading.....</h1>
+        </main>)
+    }
+
 
   return (
     <div className="page-wrapper">

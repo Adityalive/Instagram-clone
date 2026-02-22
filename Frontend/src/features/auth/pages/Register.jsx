@@ -1,23 +1,19 @@
 import React, { useState } from 'react'
 import '../Style/Register.scss'
 import axios from 'axios'
+import { useAuth } from '../hooks/useAuth'
 
 const Register = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const {User,Loading,handleregister} = useAuth();
 
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async(e) => {
         e.preventDefault();
         console.log({ username, email, password });
-        axios.post('http://localhost:3000/api/auth/register',
-             { username, email, password },
-            {
-                withCredentials:true
-            })
-             .then((res)=>{
-                 console.log(res.data)
-             })
+        await handleregister(username,email,password);
     }
 
     return (
