@@ -2,6 +2,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Routes, Route } from "react-router-dom";
 import React from 'react';
 import Register from "./features/auth/pages/Register";
+import Login from "./features/auth/pages/Login";
 
 const AppRoutes = () => {
   return (
@@ -9,7 +10,7 @@ const AppRoutes = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Register />} />
-          <Route path="/about" element={<h1>About</h1>} />
+          <Route path="/login" element={<Login />} />
           <Route path="/contact" element={<h1>Contact</h1>} />
         </Routes>
       </BrowserRouter>

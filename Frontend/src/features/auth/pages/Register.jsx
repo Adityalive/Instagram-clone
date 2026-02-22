@@ -11,7 +11,11 @@ const Register = () => {
         e.preventDefault();
         console.log({ username, email, password });
         axios.post('http://localhost:3000/api/auth/register',
-             { username, email, password }).then((res)=>{
+             { username, email, password },
+            {
+                withCredentials:true
+            })
+             .then((res)=>{
                  console.log(res.data)
              })
     }
