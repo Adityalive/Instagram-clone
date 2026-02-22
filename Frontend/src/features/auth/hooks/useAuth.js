@@ -10,7 +10,8 @@ export const useAuth = () => {
         try {
             setLoading(true);
             const response = await Login(username, password);
-            setUser(response.user);
+            // response is { user, token }
+            setUser(response.user ?? response);
         } catch (error) {
             console.error("Login error:", error);
         } finally {
@@ -22,7 +23,8 @@ export const useAuth = () => {
         try {
             setLoading(true);
             const response = await Register(username, email, password);
-            setUser(response.user);
+            // response is just user object (not wrapped in { user })
+            setUser(response.user ?? response);
         } catch (error) {
             console.error("Register error:", error);
         } finally {
