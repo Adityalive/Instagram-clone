@@ -15,6 +15,10 @@ const Register = () => {
         console.log({ username, email, password });
         await handleregister(username,email,password);
     }
+    if(Loading){
+      return (<main><h1>Loading.....</h1></main>)
+    } 
+
 
     return (
         <div className="page-wrapper">
