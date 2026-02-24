@@ -38,7 +38,7 @@ async function login(req, res) {
             { email },
             { username }
         ]
-    });
+    }).select('+password');
     if (!user) {
         return res.status(401).send('User not found');
     }

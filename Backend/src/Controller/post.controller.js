@@ -1,6 +1,7 @@
 const post = require('../Models/post.model');
 const ImageKit = require('@imagekit/nodejs');
 const jwt = require('jsonwebtoken');
+const likeModel = require('../Models/like.model');
 const imagekit = new ImageKit({
     privateKey: process.env.IMAGEKIT_PRIVATE_KEY
 });
@@ -41,7 +42,7 @@ async function postcontroller(req, res) {
 }
 
 async function getPosts(req,res){
-    const userId =req.user.id;
+    const userId = req.user.id;
     const posts = await post.find({ user: userId });
 
     return res.status(200).json({
@@ -50,9 +51,9 @@ async function getPosts(req,res){
     });
 }
 async function getpostdetails(req,res){
-    const postId = req.params.id;
-    const userId = req.user.id;
-    let postDoc;
+     const postId = req.params.id;
+     const userId = req.user.id;
+     let postDoc;
     try {
         postDoc = await post.findById(postId);
         if(!postDoc){
@@ -70,9 +71,41 @@ async function getpostdetails(req,res){
         return res.status(500).send('Post fetch failed');
     }
 }
+async function likepost(req,res){
+    const postId = req.params.id;
+    const username = req.user.username;
+    try {
+        const postDoc = await post.findById(postId);
+        if(!postDoc){
+            return res.status(404).send('Post not found');
+        }
+        const like =  await likeModel.create({
+            post: postId,
+            user: userId
+        });
+        return res.status(200).json({
+            message: 'Post liked successfully',
+            like
+        });
+
+}catch (error) {
+    console.error(error);
+    return res.status(500).send('Post fetch failed');
+}
+}
+ async function getFeed(req,res){
+    const userId = req.user.id;
+    const posts = await post.find().populate('user');
+
+    return res.status(200).json({
+        message: 'Feed fetched successfully',
+        posts
+    });
+}
 
 module.exports = {
     postcontroller,
     getPosts,
     getpostdetails,
+    getFeed
 };
