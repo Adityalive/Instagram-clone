@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import React from 'react';
 import Register from "./features/auth/pages/Register";
 import Login from "./features/auth/pages/Login";
-import Fedd from "./features/post/Pages/Fedd";
+import Fedd from "./features/post/Pages/Feed";
 
 const AppRoutes = () => {
   return (

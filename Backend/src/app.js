@@ -11,9 +11,7 @@ app.use(cors({
     origin: 'http://localhost:5173', // Replace with your frontend URL
     credentials: true, // Allow cookies to be sent with requests
 }));
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
+
 
 app.use('/api/auth', router1);
 app.use('/api/post', router2);
