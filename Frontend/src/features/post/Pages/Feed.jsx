@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Post from '../components/Post';
 import { usePost } from '../hook/usePost';
+import '../style/post.style.scss';
 
 const Feed = () => {
   const { Feed, Loading, handleFeed } = usePost();

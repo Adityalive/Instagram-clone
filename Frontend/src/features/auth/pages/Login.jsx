@@ -7,23 +7,24 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-    const {User,Loading,handlelogin} = useAuth();
+  const { User, Loading, handlelogin } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform input validation
     if (!username || !password) {
       setError('Please fill in all fields');
       return;
     }
-    await handlelogin(username,password);
+    await handlelogin(username, password);
   };
-   if (loading) {
-        return (<main>
-            <h1>Loading.....</h1>
-        </main>)
-    }
 
+  if (Loading) {
+    return (
+      <main>
+        <h1>Loading.....</h1>
+      </main>
+    );
+  }
 
   return (
     <div className="page-wrapper">
