@@ -1,17 +1,22 @@
 const mongoose = require('mongoose');
 
-const likeschema =new mongoose.Schema({
-    post:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Post",
-        required:[true,"post is required for creating a like for user"]
+const likeSchema = new mongoose.Schema(
+  {
+    post: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Post",
+      required: [true, "Post is required for creating a like"]
     },
-    user:{
-        type:String,
-        required:[true,"username is required for creating a like for user"]
-    },
-    timestamps:true
-})
-likeschema.index({ post: 1, user: 1 }, { unique: true });
-const likeModel = mongoose.model('Like', likeschema);
-module.exports = likeModel;
+    user: {
+      type: String, // or mongoose.Schema.Types.ObjectId with ref:"User"
+      required: [true, "Username is required for creating a like"]
+    }
+  },
+  { timestamps: true } // ✅ schema options go here
+);
+
+// Ensure a user can like a post only once
+likeSchema.index({ post: 1, user: 1 }, { unique: true });
+
+const Like = mongoose.model("Like", likeSchema);
+module.exports = Like;
