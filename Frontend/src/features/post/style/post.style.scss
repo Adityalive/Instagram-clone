@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
+
+// ─── Variables ───────────────────────────────────────────────
+$bg: #fafafa;
+$surface: #ffffff;
+$border: #efefef;
+$text-primary: #0a0a0a;
+$text-secondary: #737373;
+$accent: #e0245e;
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-full: 9999px;
+$transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ─── Post Card ───────────────────────────────────────────────
+.post {
+  width: 100%;
+  max-width: 470px;
+  margin: 0 auto 24px;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  overflow: hidden;
+  font-family: 'DM Sans', sans-serif;
+
+  // ─── User Header ─────────────────────────────────────────
+  .user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid $border;
+
+    .img-wrapper {
+      width: 38px;
+      height: 38px;
+      border-radius: $radius-full;
+      padding: 2px;
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      flex-shrink: 0;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: $radius-full;
+        object-fit: cover;
+        border: 2px solid $surface;
+        display: block;
+      }
+    }
+
+    p {
+      font-size: 14px;
+      font-weight: 600;
+      color: $text-primary;
+      letter-spacing: -0.01em;
+      flex: 1;
+    }
+  }
+
+  // ─── Post Image ──────────────────────────────────────────
+  > img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+    transition: filter $transition;
+
+    &:hover {
+      filter: brightness(0.97);
+    }
+  }
+
+  // ─── Icons Row ───────────────────────────────────────────
+  .icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px 4px;
+
+    .left,
+    .right {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: $radius-sm;
+      color: $text-primary;
+      transition: color $transition, transform $transition, background $transition;
+
+      svg {
+        width: 24px;
+        height: 24px;
+        display: block;
+        transition: transform $transition;
+      }
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.04);
+
+        svg {
+          transform: scale(1.1);
+        }
+      }
+
+      &:active svg {
+        transform: scale(0.92);
+      }
+
+      // Like button active state
+      &:has(.like) {
+        color: $accent;
+        animation: heartPop 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+
+        svg {
+          filter: drop-shadow(0 0 6px rgba($accent, 0.4));
+        }
+      }
+    }
+  }
+
+  // ─── Caption ─────────────────────────────────────────────
+  .bottom {
+    padding: 4px 16px 16px;
+
+    .caption {
+      font-size: 14px;
+      font-weight: 400;
+      color: $text-primary;
+      line-height: 1.5;
+      letter-spacing: -0.005em;
+      margin: 0;
+
+      // Clamp to 3 lines with "more" ellipsis
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+}
+
+// ─── Heart Pop Animation ──────────────────────────────────────
+@keyframes heartPop {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.35); }
+  60%  { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+// ─── Dark Mode ───────────────────────────────────────────────
+@media (prefers-color-scheme: dark) {
+  .post {
+    background: #1a1a1a;
+    border-color: #2a2a2a;
+
+    .user {
+      border-bottom-color: #2a2a2a;
+
+      p {
+        color: #f5f5f5;
+      }
+    }
+
+    .icons button {
+      color: #f5f5f5;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.06);
+      }
+    }
+
+    .bottom .caption {
+      color: #f5f5f5;
+    }
+  }
+}

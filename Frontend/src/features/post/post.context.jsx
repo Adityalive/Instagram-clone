@@ -7,7 +7,7 @@ export async function PostProvider({children}) {
     const [Loading,setLoading] = useState(false);
     const [Feed,setFeed] = useState(null);
     return (
-        <PostContext.Provider value={{Post,setPost,Loading,setLoading,Feed,setFeed}}>
+          <PostContext.Provider value={{Post,setPost,Loading,setLoading,Feed,setFeed}}>
             {children}
             </PostContext.Provider>
     )
