@@ -8,4 +8,5 @@ const upload = multer({ storage: multer.memoryStorage() })
 postrouter.post('/upload',upload.single('file'), postcontroller.postcontroller)
 postrouter.get('/getposts',identify, postcontroller.getPosts)
 postrouter.get('/getpostdetails/:id',identify, postcontroller.getpostdetails)
+postrouter.get('/feed',identify, postcontroller.getFeed)
 module.exports = postrouter;
