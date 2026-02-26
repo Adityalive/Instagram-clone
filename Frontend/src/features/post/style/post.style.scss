@@ -1,29 +1,159 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
 
-// ─── Variables ───────────────────────────────────────────────
-$bg: #fafafa;
-$surface: #ffffff;
-$border: #efefef;
-$text-primary: #0a0a0a;
+// ─── Design Tokens ────────────────────────────────────────────
+$bg:             #fafafa;
+$surface:        #ffffff;
+$border:         #efefef;
+$text-primary:   #0a0a0a;
 $text-secondary: #737373;
-$accent: #e0245e;
-$radius-sm: 8px;
-$radius-md: 12px;
-$radius-full: 9999px;
-$transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+$text-muted:     #a8a8a8;
+$accent:         #e0245e;
+$accent-blue:    #0095f6;
+$story-gradient: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+$radius-sm:      8px;
+$radius-md:      12px;
+$radius-full:    9999px;
+$transition:     0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
-// ─── Post Card ───────────────────────────────────────────────
+*, *::before, *::after { box-sizing: border-box; }
+
+// ═══════════════════════════════════════════════════════════════
+//  FEED PAGE
+// ═══════════════════════════════════════════════════════════════
+.feed-page {
+  min-height: 100vh;
+  background: $bg;
+  font-family: 'DM Sans', sans-serif;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  FEED  —  sidebar LEFT  |  posts RIGHT
+// ═══════════════════════════════════════════════════════════════
+.feed {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-areas: "sidebar posts";
+  gap: 32px;
+  align-items: start;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+
+  @media (max-width: 680px) {
+    grid-template-columns: 1fr;
+    grid-template-areas: "sidebar" "posts";
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  FOLLOWED  —  left sidebar
+// ═══════════════════════════════════════════════════════════════
+.followed {
+  grid-area: sidebar;
+  position: sticky;
+  top: 40px;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  padding: 20px 16px;
+
+  h3 {
+    font-size: 12px;
+    font-weight: 600;
+    color: $text-secondary;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 16px;
+  }
+
+  .peruser {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 0;
+
+    & + .peruser {
+      border-top: 1px solid $border;
+    }
+
+    .img-profile {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      border-radius: $radius-full;
+      padding: 2px;
+      background: $story-gradient;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: $radius-full;
+        object-fit: cover;
+        border: 2px solid $surface;
+        display: block;
+      }
+    }
+
+    p {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 600;
+      color: $text-primary;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    button {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: $accent-blue;
+      padding: 4px 0;
+      transition: opacity $transition;
+
+      &:hover  { opacity: 0.7; }
+      &:active { opacity: 0.4; }
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  POSTS  —  right column
+// ═══════════════════════════════════════════════════════════════
+.posts {
+  grid-area: posts;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  > p {
+    text-align: center;
+    color: $text-secondary;
+    font-size: 14px;
+    padding: 60px 0;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  POST CARD
+// ═══════════════════════════════════════════════════════════════
 .post {
-  width: 100%;
-  max-width: 470px;
-  margin: 0 auto 24px;
   background: $surface;
   border: 1px solid $border;
   border-radius: $radius-md;
   overflow: hidden;
-  font-family: 'DM Sans', sans-serif;
+  width: 100%;
 
-  // ─── User Header ─────────────────────────────────────────
+  // Hide the .followed block inside the card —
+  // it's rendered as the sidebar via .feed grid, not here
+  .followed { display: none; }
+
+  // ─── User header ────────────────────────────────────────
   .user {
     display: flex;
     align-items: center;
@@ -34,10 +164,10 @@ $transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     .img-wrapper {
       width: 38px;
       height: 38px;
+      flex-shrink: 0;
       border-radius: $radius-full;
       padding: 2px;
-      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-      flex-shrink: 0;
+      background: $story-gradient;
 
       img {
         width: 100%;
@@ -55,10 +185,11 @@ $transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       color: $text-primary;
       letter-spacing: -0.01em;
       flex: 1;
+      margin: 0;
     }
   }
 
-  // ─── Post Image ──────────────────────────────────────────
+  // ─── Post image ─────────────────────────────────────────
   > img {
     width: 100%;
     aspect-ratio: 1 / 1;
@@ -66,23 +197,20 @@ $transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     display: block;
     transition: filter $transition;
 
-    &:hover {
-      filter: brightness(0.97);
-    }
+    &:hover { filter: brightness(0.97); }
   }
 
-  // ─── Icons Row ───────────────────────────────────────────
+  // ─── Action icons ────────────────────────────────────────
   .icons {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 8px 12px 4px;
 
-    .left,
-    .right {
+    .left, .right {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 2px;
     }
 
     button {
@@ -95,7 +223,7 @@ $transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       padding: 6px;
       border-radius: $radius-sm;
       color: $text-primary;
-      transition: color $transition, transform $transition, background $transition;
+      transition: color $transition, background $transition;
 
       svg {
         width: 24px;
@@ -106,24 +234,15 @@ $transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
       &:hover {
         background: rgba(0, 0, 0, 0.04);
-
-        svg {
-          transform: scale(1.1);
-        }
+        svg { transform: scale(1.1); }
       }
 
-      &:active svg {
-        transform: scale(0.92);
-      }
+      &:active svg { transform: scale(0.88); }
 
-      // Like button active state
       &:has(.like) {
         color: $accent;
         animation: heartPop 0.35s cubic-bezier(0.36, 0.07, 0.19, 0.97);
-
-        svg {
-          filter: drop-shadow(0 0 6px rgba($accent, 0.4));
-        }
+        svg { filter: drop-shadow(0 0 6px rgba($accent, 0.45)); }
       }
     }
   }
@@ -134,13 +253,9 @@ $transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     .caption {
       font-size: 14px;
-      font-weight: 400;
       color: $text-primary;
-      line-height: 1.5;
-      letter-spacing: -0.005em;
+      line-height: 1.55;
       margin: 0;
-
-      // Clamp to 3 lines with "more" ellipsis
       display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
@@ -149,63 +264,48 @@ $transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-// ─── Heart Pop Animation ──────────────────────────────────────
+// ─── Heart pop keyframe ───────────────────────────────────────
 @keyframes heartPop {
-  0%   { transform: scale(1); }
+  0%   { transform: scale(1);    }
   30%  { transform: scale(1.35); }
-  60%  { transform: scale(0.9); }
-  100% { transform: scale(1); }
+  60%  { transform: scale(0.9);  }
+  100% { transform: scale(1);    }
 }
 
-// ─── Dark Mode ───────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+//  DARK MODE
+// ═══════════════════════════════════════════════════════════════
 @media (prefers-color-scheme: dark) {
+  .feed-page { background: #000; }
+
+  .followed {
+    background: #1a1a1a;
+    border-color: #262626;
+
+    h3 { color: #737373; }
+
+    .peruser {
+      border-top-color: #262626;
+      p { color: #f5f5f5; }
+      .img-profile img { border-color: #1a1a1a; }
+    }
+  }
+
   .post {
     background: #1a1a1a;
-    border-color: #2a2a2a;
+    border-color: #262626;
 
     .user {
-      border-bottom-color: #2a2a2a;
-
-      p {
-        color: #f5f5f5;
-      }
+      border-bottom-color: #262626;
+      p { color: #f5f5f5; }
+      .img-wrapper img { border-color: #1a1a1a; }
     }
 
     .icons button {
       color: #f5f5f5;
-
-      &:hover {
-        background: rgba(255, 255, 255, 0.06);
-      }
+      &:hover { background: rgba(255, 255, 255, 0.06); }
     }
 
-    .bottom .caption {
-      color: #f5f5f5;
-    }
-  }
-}
-.feed-page {
-  min-height: 100vh;
-  background: $bg;
-  font-family: 'DM Sans', sans-serif;
-
-  .feed {
-    display: flex;
-    justify-content: center;
-    padding: 32px 16px 64px;
-
-    .posts {
-      width: 100%;
-      max-width: 470px;
-
-      // Loading state
-      > p {
-        text-align: center;
-        color: $text-secondary;
-        font-size: 14px;
-        padding: 48px 0;
-        letter-spacing: 0.01em;
-      }
-    }
+    .bottom .caption { color: #f5f5f5; }
   }
 }

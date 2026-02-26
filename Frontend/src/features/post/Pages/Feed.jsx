@@ -13,12 +13,31 @@ const Feed = () => {
 
   return (
     <main className="feed-page">
-        <Navbar />
+      <Navbar />
       <div className="feed">
+
+        {/* LEFT: suggested users sidebar */}
+        <aside className="followed">
+          <h3>To be Followed</h3>
+          {Feed.map((post) => (
+            <div key={post._id} className="peruser">
+              <div className="img-profile">
+                <img src={post.user?.profileImage} alt={post.user?.username || 'user'} />
+              </div>
+              <p>{post.user?.username || 'Unknown'}</p>
+              <button type="button">Follow</button>
+            </div>
+          ))}
+        </aside>
+
+        {/* RIGHT: posts feed */}
         <div className="posts">
           {Loading && <p>Loading...</p>}
-          {!Loading && Feed.map((post) => <Post key={post._id} user={post.user} post={post} />)}
+          {!Loading && Feed.map((post) => (
+            <Post key={post._id} user={post.user} post={post} />
+          ))}
         </div>
+
       </div>
     </main>
   );
