@@ -95,7 +95,7 @@ async function likepost(req,res){
 }
  async function getFeed(req,res){
     const userId = req.user.id;
-    const posts = await post.find().populate('user');
+     const posts = await post.find().populate('user').sort({ _id: -1 });
 
     return res.status(200).json({
         message: 'Feed fetched successfully',
