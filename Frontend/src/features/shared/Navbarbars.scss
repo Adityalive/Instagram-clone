@@ -1,0 +1,26 @@
+/* Frontend/src/features/shared/Navbar.scss */
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 20px;
+  background: #111827;
+  border-bottom: 1px solid #1f2937;
+}
+
+.navbar button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #f9fafb;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.navbar button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(59, 130, 246, 0.35);
+}

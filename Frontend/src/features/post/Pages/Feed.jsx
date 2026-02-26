@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Post from '../components/Post';
 import { usePost } from '../hook/usePost';
 import '../style/post.style.scss';
+import Navbar from '../../shared/Navbar';
 
 const Feed = () => {
   const { Feed, Loading, handleFeed } = usePost();
@@ -12,6 +13,7 @@ const Feed = () => {
 
   return (
     <main className="feed-page">
+        <Navbar />
       <div className="feed">
         <div className="posts">
           {Loading && <p>Loading...</p>}
