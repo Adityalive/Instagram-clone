@@ -5,22 +5,21 @@ import '../style/post.style.scss';
 import Navbar from '../../shared/Navbar';
 
 const Feed = () => {
-  const { Feed, Loading, handleFeed, handlefollow } = usePost();
+  const { Feed, Loading, handleFeed, handleFollow } = usePost();
 
   useEffect(() => {
     handleFeed();
   }, []);
-      function handleclick(username) {
-  if (!username) return;
-  handlefollow(username);
-}
+
+  function handleClick(username) {
+    if (!username) return;
+    handleFollow(username);
+  }
 
   return (
     <main className="feed-page">
       <Navbar />
       <div className="feed">
-
-        {/* LEFT: suggested users sidebar */}
         <aside className="followed">
           <h3>To be Followed</h3>
           {Feed.map((post) => (
@@ -29,19 +28,17 @@ const Feed = () => {
                 <img src={post.user?.profileImage} alt={post.user?.username || 'user'} />
               </div>
               <p>{post.user?.username || 'Unknown'}</p>
-              <button onClick={() => handleclick(post.user?.username)} type="button">Follow</button>
+              <button onClick={() => handleClick(post.user?.username)} type="button">
+                Follow
+              </button>
             </div>
           ))}
         </aside>
 
-        {/* RIGHT: posts feed */}
         <div className="posts">
           {Loading && <p>Loading...</p>}
-          {!Loading && Feed.map((post) => (
-            <Post key={post._id} user={post.user} post={post} />
-          ))}
+          {!Loading && Feed.map((post) => <Post key={post._id} user={post.user} post={post} />)}
         </div>
-
       </div>
     </main>
   );
