@@ -66,6 +66,25 @@ $transition:     0.2s cubic-bezier(0.4, 0, 0.2, 1);
     margin: 0 0 16px;
   }
 
+  .follow-group {
+    & + .follow-group {
+      margin-top: 16px;
+    }
+
+    h4 {
+      margin: 0 0 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: $text-primary;
+    }
+  }
+
+  .empty-text {
+    margin: 0 0 8px;
+    font-size: 12px;
+    color: $text-muted;
+  }
+
   .peruser {
     display: flex;
     align-items: center;
@@ -283,6 +302,8 @@ $transition:     0.2s cubic-bezier(0.4, 0, 0.2, 1);
     border-color: #262626;
 
     h3 { color: #737373; }
+    .follow-group h4 { color: #f5f5f5; }
+    .empty-text { color: #737373; }
 
     .peruser {
       border-top-color: #262626;

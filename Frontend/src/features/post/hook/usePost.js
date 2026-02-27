@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { PostContext } from '../post.context';
-import { getFeed, createpost, follow } from '../services/post.api';
+import { getFeed, createpost, follow, unfollow } from '../services/post.api';
 
 export function usePost() {
   const { Post, setPost, Loading, setLoading, Feed, setFeed, Follow, setFollow } = useContext(PostContext);
@@ -34,10 +34,28 @@ export function usePost() {
     try {
       setLoading(true);
       const response = await follow(username);
-      setFollow((prev) => [response.follow, ...prev]);
+      setFollow((prev) => {
+        const exists = prev.some((item) => item.following === username);
+        if (exists) return prev;
+        return [response.follow, ...prev];
+      });
       return response;
     } catch (error) {
       console.error('Error following user:', error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUnfollow = async (username) => {
+    try {
+      setLoading(true);
+      const response = await unfollow(username);
+      setFollow((prev) => prev.filter((item) => item.following !== username));
+      return response;
+    } catch (error) {
+      console.error('Error unfollowing user:', error);
       throw error;
     } finally {
       setLoading(false);
@@ -56,5 +74,6 @@ export function usePost() {
     handleFeed,
     handleCreatePost,
     handleFollow,
+    handleUnfollow,
   };
 }

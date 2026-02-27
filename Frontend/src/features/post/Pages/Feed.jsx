@@ -5,34 +5,71 @@ import '../style/post.style.scss';
 import Navbar from '../../shared/Navbar';
 
 const Feed = () => {
-  const { Feed, Loading, handleFeed, handleFollow } = usePost();
+  const { Feed, Follow, Loading, handleFeed, handleFollow, handleUnfollow } = usePost();
 
   useEffect(() => {
     handleFeed();
   }, []);
 
-  function handleClick(username) {
+  async function handleClick(username) {
     if (!username) return;
-    handleFollow(username);
+    await handleFollow(username);
   }
+
+  async function handleUnfollowClick(username) {
+    if (!username) return;
+    await handleUnfollow(username);
+  }
+
+  const userMap = new Map();
+  Feed.forEach((post) => {
+    if (post.user?.username && !userMap.has(post.user.username)) {
+      userMap.set(post.user.username, post.user);
+    }
+  });
+  const allUsers = Array.from(userMap.values());
+  const followingSet = new Set(Follow.map((item) => item.following));
+  const followingUsers = allUsers.filter((user) => followingSet.has(user.username));
+  const toBeFollowedUsers = allUsers.filter((user) => !followingSet.has(user.username));
 
   return (
     <main className="feed-page">
       <Navbar />
       <div className="feed">
         <aside className="followed">
-          <h3>To be Followed</h3>
-          {Feed.map((post) => (
-            <div key={post._id} className="peruser">
-              <div className="img-profile">
-                <img src={post.user?.profileImage} alt={post.user?.username || 'user'} />
+          <h3>People</h3>
+
+          <div className="follow-group">
+            <h4>Following</h4>
+            {followingUsers.length === 0 && <p className="empty-text">No following yet</p>}
+            {followingUsers.map((user) => (
+              <div key={`following-${user.username}`} className="peruser">
+                <div className="img-profile">
+                  <img src={user.profileImage} alt={user.username || 'user'} />
+                </div>
+                <p>{user.username || 'Unknown'}</p>
+                <button onClick={() => handleUnfollowClick(user.username)} type="button">
+                  Unfollow
+                </button>
               </div>
-              <p>{post.user?.username || 'Unknown'}</p>
-              <button onClick={() => handleClick(post.user?.username)} type="button">
-                Follow
-              </button>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          <div className="follow-group">
+            <h4>To be Followed</h4>
+            {toBeFollowedUsers.length === 0 && <p className="empty-text">No suggestions</p>}
+            {toBeFollowedUsers.map((user) => (
+              <div key={`suggest-${user.username}`} className="peruser">
+                <div className="img-profile">
+                  <img src={user.profileImage} alt={user.username || 'user'} />
+                </div>
+                <p>{user.username || 'Unknown'}</p>
+                <button onClick={() => handleClick(user.username)} type="button">
+                  Follow
+                </button>
+              </div>
+            ))}
+          </div>
         </aside>
 
         <div className="posts">

@@ -24,3 +24,10 @@ export async function follow(username) {
   });
   return response.data;
 }
+
+export async function unfollow(username) {
+  const response = await axios.post(`http://localhost:3000/api/unfollow/${username}`, null, {
+    withCredentials: true,
+  });
+  return response.data;
+}
