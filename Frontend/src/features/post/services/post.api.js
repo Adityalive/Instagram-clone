@@ -15,3 +15,7 @@ export async function createpost(caption, file){
      const response = await api.post('/upload', formData )
      return(response.data);
 }
+export  async function follow(id){
+    const response = await api.post(`http://localhost:3000/api/follow/${id}`)
+    return(response.data)
+}

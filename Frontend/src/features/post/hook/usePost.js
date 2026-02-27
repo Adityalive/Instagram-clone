@@ -3,7 +3,7 @@ import { PostContext } from "../post.context";
 import { getFeed, createpost } from "../services/post.api";
 
 export function usePost() {
-  const { Post, setPost, Loading, setLoading, Feed, setFeed } = useContext(PostContext);
+  const { Post, setPost, Loading, setLoading, Feed, setFeed, Followed, setFollowed } = useContext(PostContext);
 
   const handleFeed = async () => {
     try {
@@ -23,7 +23,19 @@ export function usePost() {
       const response = await createpost(caption, file);
       setFeed((prev) => [response.post, ...prev]);
     } catch (error) {
-      console.error("Error creating post:", error);
+      console.error("Error creating post:post", error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+  const handleFollow = async (id) => {
+    try {
+      setLoading(true);
+      const response = await follow(id);
+      setFollowed((prev) => [response.follow, ...prev]);
+    } catch (error) {
+      console.error("Error following user:", error);
       throw error;
     } finally {
       setLoading(false);

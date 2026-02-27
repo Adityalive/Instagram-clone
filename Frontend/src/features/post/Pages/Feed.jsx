@@ -5,12 +5,14 @@ import '../style/post.style.scss';
 import Navbar from '../../shared/Navbar';
 
 const Feed = () => {
-  const { Feed, Loading, handleFeed } = usePost();
+  const { Feed, Loading, handleFeed,handlefollow } = usePost();
 
   useEffect(() => {
     handleFeed();
   }, []);
-
+       function handlefollow(userId) {
+        handlefollow(userId);
+      }
   return (
     <main className="feed-page">
       <Navbar />
@@ -25,7 +27,7 @@ const Feed = () => {
                 <img src={post.user?.profileImage} alt={post.user?.username || 'user'} />
               </div>
               <p>{post.user?.username || 'Unknown'}</p>
-              <button type="button">Follow</button>
+              <button onClick={() => handlefollow(user.id)} type="button">Follow</button>
             </div>
           ))}
         </aside>
