@@ -29,10 +29,10 @@ export function usePost() {
       setLoading(false);
     }
   };
-  const handleFollow = async (id) => {
+  const handleFollow = async (username) => {
     try {
       setLoading(true);
-      const response = await follow(id);
+      const response = await follow(username);
       setFollowed((prev) => [response.follow, ...prev]);
     } catch (error) {
       console.error("Error following user:", error);
@@ -42,5 +42,5 @@ export function usePost() {
     }
   };
 
-  return { Post, setPost, Loading, setLoading, Feed, setFeed, handleFeed, handleCreatePost };
+  return { Post, setPost, Loading, setLoading, Feed, setFeed, handleFeed, handleCreatePost,handleFollow };
 }
